@@ -7,8 +7,14 @@ import (
 )
 
 func main() {
-	err := filepath.Walk("testdata/testDir01/", func(path string, info os.FileInfo, err error) error{
-		if err != nil {
+	err := filepath.Walk("testdata/testDir01/", Rename)
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
+func Rename(path string, info os.FileInfo, err error) error {
+	if err != nil {
 			return err
 		}
 
@@ -28,16 +34,14 @@ func main() {
 
 			// ファイル名を変更
 			newPath := filepath.Join(dirName + "/" + newName)
-			os.Rename(path, newPath)
-//fmt.Print(newPath)
+
+			errRename := os.Rename(path, newPath)
+			if errRename != nil {
+				fmt.Println(errRename)
+			}
 			//fmt.Printf("dirName: %v, oldName: %v, newName: %v\n", dirName, oldName, newName)
 		}
 
-
 		return nil
-	})
-
-	if err != nil {
-		fmt.Println(err)
-	}
 }
+
