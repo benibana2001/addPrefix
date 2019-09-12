@@ -30,10 +30,26 @@ func main() {
 
 	flag.Parse()
 
-	//err := filepath.Walk("testdata/testDir01/", addPrefix)
-	err := filepath.Walk(*dir, delName)
-	if err != nil {
-		fmt.Println(err)
+	// コマンド
+	cmd := flag.Arg(0)
+	fmt.Println(cmd)
+
+	// todo: addPrefix と delName 両方の機能を呼び出せるようにする
+
+	// コマンド引数が 'del' の時はdelNameを実行する
+	if cmd == "del" {
+		err := filepath.Walk(*dir, delName)
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+
+	// コマンド引数が存在しない場合は、addPrefixを実行する
+	if cmd == "" {
+		err := filepath.Walk(*dir, addPrefix)
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 }
 
